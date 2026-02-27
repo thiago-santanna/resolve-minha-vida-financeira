@@ -185,12 +185,12 @@ export const InvestimentosPage = () => {
 
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600 tracking-tight">Investimentos</h1>
-                    <p className="text-gray-500 mt-1 font-medium">Acompanhe a rentabilidade e movimentações da sua carteira.</p>
+                    <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 tracking-tight transition-colors">Investimentos</h1>
+                    <p className="text-gray-500 dark:text-slate-400 mt-1 font-medium transition-colors">Acompanhe a rentabilidade e movimentações da sua carteira.</p>
                 </div>
                 <button
                     onClick={() => setModalOpen(true)}
-                    className="flex items-center space-x-2 bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 rounded-xl font-semibold shadow-xl shadow-gray-200 hover:shadow-2xl hover:shadow-gray-300 transition-all hover:scale-105 transform active:scale-95"
+                    className="flex items-center space-x-2 bg-gray-900 dark:bg-indigo-600 hover:bg-gray-800 dark:hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-semibold shadow-xl shadow-gray-200 dark:shadow-indigo-900/20 hover:shadow-gray-300 transition-all hover:scale-105 transform active:scale-95"
                 >
                     <Plus size={20} />
                     <span>Nova Movimentação</span>
@@ -204,7 +204,7 @@ export const InvestimentosPage = () => {
                     {/* Hero Section: Patrimônio Global */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
                         {/* Blob Background Effect */}
-                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl -z-10 blur-3xl opacity-50 border border-white"></div>
+                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30 rounded-3xl -z-10 blur-3xl opacity-50 border border-white dark:border-transparent transition-colors"></div>
 
                         <div className="col-span-1 md:col-span-2 bg-gradient-to-br from-indigo-900 to-purple-900 p-8 rounded-3xl shadow-2xl relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2 group-hover:scale-110 transition-transform duration-1000"></div>
@@ -231,15 +231,15 @@ export const InvestimentosPage = () => {
                         </div>
 
                         <div className="col-span-1 flex flex-col gap-4">
-                            <div className="bg-white/80 backdrop-blur-xl p-6 rounded-3xl shadow-lg border border-white flex-1 flex flex-col justify-center items-center text-center relative overflow-hidden hover:scale-105 transition-transform">
-                                <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mb-3"><ArrowUpRight size={24} /></div>
-                                <p className="text-sm font-medium text-gray-500">Último Aporte</p>
-                                <p className="text-lg font-bold text-gray-900 mt-1">Nesta semana</p> {/* Placeholder contextual futuro */}
+                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-6 rounded-3xl shadow-lg border border-white dark:border-slate-700/50 flex-1 flex flex-col justify-center items-center text-center relative overflow-hidden hover:scale-105 transition-all">
+                                <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-3 transition-colors"><ArrowUpRight size={24} /></div>
+                                <p className="text-sm font-medium text-gray-500 dark:text-slate-400 transition-colors">Último Aporte</p>
+                                <p className="text-lg font-bold text-gray-900 dark:text-white mt-1 transition-colors">Nesta semana</p> {/* Placeholder contextual futuro */}
                             </div>
-                            <div className="bg-white/80 backdrop-blur-xl p-6 rounded-3xl shadow-lg border border-white flex-1 flex flex-col justify-center items-center text-center relative overflow-hidden hover:scale-105 transition-transform">
-                                <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mb-3"><TrendingUp size={24} /></div>
-                                <p className="text-sm font-medium text-gray-500">Ativos na Carteira</p>
-                                <p className="text-3xl font-extrabold text-gray-900 mt-1">{portfolioData.length}</p>
+                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-6 rounded-3xl shadow-lg border border-white dark:border-slate-700/50 flex-1 flex flex-col justify-center items-center text-center relative overflow-hidden hover:scale-105 transition-all">
+                                <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-3 transition-colors"><TrendingUp size={24} /></div>
+                                <p className="text-sm font-medium text-gray-500 dark:text-slate-400 transition-colors">Ativos na Carteira</p>
+                                <p className="text-3xl font-extrabold text-gray-900 dark:text-white mt-1 transition-colors">{portfolioData.length}</p>
                             </div>
                         </div>
                     </div>
@@ -247,55 +247,55 @@ export const InvestimentosPage = () => {
                     {/* Lista Completa da Carteira de Ativos */}
                     <div>
                         <div className="flex items-center justify-between mb-6 mt-12">
-                            <h2 className="text-2xl font-bold text-gray-900">Seus Ativos</h2>
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white transition-colors">Seus Ativos</h2>
                         </div>
 
                         {portfolioData.length === 0 ? (
-                            <div className="bg-white rounded-3xl border border-gray-100 p-12 text-center shadow-sm">
-                                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100">
-                                    <PieChartIcon size={32} className="text-gray-400" />
+                            <div className="bg-white dark:bg-slate-800 rounded-3xl border border-gray-100 dark:border-slate-700 p-12 text-center shadow-sm transition-colors">
+                                <div className="w-20 h-20 bg-gray-50 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100 dark:border-slate-600 transition-colors">
+                                    <PieChartIcon size={32} className="text-gray-400 dark:text-slate-500" />
                                 </div>
-                                <h3 className="text-lg font-bold text-gray-900">Nenhum investimento detectado</h3>
-                                <p className="text-gray-500 mt-1">Suas contas de investimento cadastradas aparecerão aqui quando possuírem lançamentos.</p>
+                                <h3 className="text-lg font-bold text-gray-900 dark:text-white transition-colors">Nenhum investimento detectado</h3>
+                                <p className="text-gray-500 dark:text-slate-400 mt-1 transition-colors">Suas contas de investimento cadastradas aparecerão aqui quando possuírem lançamentos.</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {portfolioData.map((asset) => (
-                                    <div key={asset.id} className="bg-white rounded-[2rem] p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:border-indigo-100 transition-all duration-300 group cursor-default relative overflow-hidden">
+                                    <div key={asset.id} className="bg-white dark:bg-slate-800 rounded-[2rem] p-6 shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-xl dark:hover:border-indigo-500/50 transition-all duration-300 group cursor-default relative overflow-hidden">
 
-                                        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-x-1/2 -translate-y-1/2"></div>
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-x-1/2 -translate-y-1/2"></div>
 
                                         <div className="flex justify-between items-start relative z-10">
                                             <div className="flex items-center space-x-4">
-                                                <div className="p-3 bg-gray-50 rounded-2xl group-hover:bg-indigo-50 transition-colors">
+                                                <div className="p-3 bg-gray-50 dark:bg-slate-700 rounded-2xl group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30 transition-colors">
                                                     {getTypeIcon(asset.type)}
                                                 </div>
                                                 <div>
-                                                    <h3 className="font-bold text-gray-900 text-lg leading-tight">{asset.name}</h3>
-                                                    <div className="flex items-center space-x-1.5 text-sm text-gray-500 mt-1">
+                                                    <h3 className="font-bold text-gray-900 dark:text-white text-lg leading-tight transition-colors">{asset.name}</h3>
+                                                    <div className="flex items-center space-x-1.5 text-sm text-gray-500 dark:text-slate-400 mt-1 transition-colors">
                                                         <Building2 size={14} />
                                                         <span className="font-medium">{asset.institution_name}</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <span className="px-3 py-1 bg-gray-50 text-gray-500 text-xs font-semibold rounded-lg uppercase tracking-wider">{asset.type}</span>
+                                            <span className="px-3 py-1 bg-gray-50 dark:bg-slate-700 text-gray-500 dark:text-slate-300 text-xs font-semibold rounded-lg uppercase tracking-wider transition-colors">{asset.type}</span>
                                         </div>
 
                                         <div className="mt-8 relative z-10">
-                                            <p className="text-gray-500 text-sm font-medium mb-1">Saldo Líquido</p>
-                                            <p className="text-3xl font-extrabold text-gray-900 tracking-tight">{formatCurrency(asset.current_balance)}</p>
+                                            <p className="text-gray-500 dark:text-slate-400 text-sm font-medium mb-1 transition-colors">Saldo Líquido</p>
+                                            <p className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight transition-colors">{formatCurrency(asset.current_balance)}</p>
                                         </div>
 
-                                        <div className="mt-6 pt-6 border-t border-gray-50 flex justify-between items-center relative z-10">
+                                        <div className="mt-6 pt-6 border-t border-gray-50 dark:border-slate-700/50 flex justify-between items-center relative z-10 transition-colors">
                                             <div>
-                                                <p className="text-xs text-gray-400 font-medium">Lucro/Prejuízo</p>
-                                                <p className={`text-sm font-bold mt-0.5 ${(asset.total_earnings - asset.total_fees) >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                                                <p className="text-xs text-gray-400 dark:text-slate-500 font-medium transition-colors">Lucro/Prejuízo</p>
+                                                <p className={`text-sm font-bold mt-0.5 transition-colors ${(asset.total_earnings - asset.total_fees) >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
                                                     {(asset.total_earnings - asset.total_fees) >= 0 ? '+' : ''}{formatCurrency(asset.total_earnings - asset.total_fees)}
                                                 </p>
                                             </div>
                                             <div className="text-right">
-                                                <p className="text-xs text-gray-400 font-medium">Aportes (Liq)</p>
-                                                <p className="text-sm font-bold text-gray-700 mt-0.5">
+                                                <p className="text-xs text-gray-400 dark:text-slate-500 font-medium transition-colors">Aportes (Liq)</p>
+                                                <p className="text-sm font-bold text-gray-700 dark:text-slate-300 mt-0.5 transition-colors">
                                                     {formatCurrency(asset.total_deposits - asset.total_withdrawals)}
                                                 </p>
                                             </div>
@@ -310,14 +310,14 @@ export const InvestimentosPage = () => {
 
             {/* Modal de Nova Movimentação */}
             {modalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
-                        <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 dark:bg-slate-900/80 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200 transition-colors">
+                        <div className="px-6 py-5 border-b border-gray-100 dark:border-slate-700 flex justify-between items-center bg-gray-50/50 dark:bg-slate-800/50 transition-colors">
                             <div className="flex items-center space-x-3">
-                                <div className="p-2 bg-indigo-100 text-indigo-600 rounded-xl"><DollarSign size={20} /></div>
-                                <h2 className="text-xl font-extrabold text-gray-900">Registrar Movimentação</h2>
+                                <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl transition-colors"><DollarSign size={20} /></div>
+                                <h2 className="text-xl font-extrabold text-gray-900 dark:text-white transition-colors">Registrar Movimentação</h2>
                             </div>
-                            <button onClick={() => setModalOpen(false)} className="text-gray-400 hover:text-gray-700 p-2 bg-white rounded-full shadow-sm border border-gray-100 transition-all hover:scale-105">
+                            <button onClick={() => setModalOpen(false)} className="text-gray-400 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 p-2 bg-white dark:bg-slate-700 rounded-full shadow-sm border border-gray-100 dark:border-slate-600 transition-all hover:scale-105">
                                 X
                             </button>
                         </div>
@@ -325,14 +325,14 @@ export const InvestimentosPage = () => {
                         <div className="p-6">
                             {accounts.length === 0 ? (
                                 <div className="text-center py-8">
-                                    <p className="text-gray-600 mb-4 font-medium">Você ainda não castrou nenhuma Conta de Investimento.</p>
-                                    <a href="/cadastros" className="text-primary font-bold hover:underline">Ir para Cadastros</a>
+                                    <p className="text-gray-600 dark:text-slate-400 mb-4 font-medium transition-colors">Você ainda não castrou nenhuma Conta de Investimento.</p>
+                                    <a href="/cadastros" className="text-primary dark:text-indigo-400 font-bold hover:underline transition-colors">Ir para Cadastros</a>
                                 </div>
                             ) : (
                                 <form onSubmit={handleSave} className="space-y-5">
                                     <div>
-                                        <label className="block text-sm font-bold text-gray-700 mb-1.5">Ativo / Aplicação</label>
-                                        <select required value={formData.investment_account_id} onChange={(e) => setFormData({ ...formData, investment_account_id: e.target.value })} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-50 focus:border-indigo-400 outline-none bg-white transition-all font-medium text-gray-700">
+                                        <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1.5 transition-colors">Ativo / Aplicação</label>
+                                        <select required value={formData.investment_account_id} onChange={(e) => setFormData({ ...formData, investment_account_id: e.target.value })} className="w-full px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-4 focus:ring-indigo-50 dark:focus:ring-indigo-900/20 focus:border-indigo-400 outline-none bg-white dark:bg-slate-700 transition-all font-medium text-gray-700 dark:text-white">
                                             <option value="">Selecione o ativo...</option>
                                             {accounts.map(a => <option key={a.id} value={a.id}>{a.name} ({a.institution_name})</option>)}
                                         </select>
@@ -340,8 +340,8 @@ export const InvestimentosPage = () => {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-bold text-gray-700 mb-1.5">Tipo Operação</label>
-                                            <select required value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-50 focus:border-indigo-400 outline-none bg-white font-medium text-gray-700">
+                                            <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1.5 transition-colors">Tipo Operação</label>
+                                            <select required value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="w-full px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-4 focus:ring-indigo-50 dark:focus:ring-indigo-900/20 focus:border-indigo-400 outline-none bg-white dark:bg-slate-700 font-medium text-gray-700 dark:text-white transition-colors">
                                                 <option value="DEPOSIT">📥 Aporte (Depósito)</option>
                                                 <option value="WITHDRAWAL">📤 Resgate (Saque)</option>
                                                 <option value="EARNINGS">📈 Rendimento (+)</option>
@@ -349,7 +349,7 @@ export const InvestimentosPage = () => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-bold text-gray-700 mb-1.5">Valor (R$)</label>
+                                            <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1.5 transition-colors">Valor (R$)</label>
                                             <CurrencyInput
                                                 id="amount-invest"
                                                 name="amount-invest"
@@ -360,17 +360,17 @@ export const InvestimentosPage = () => {
                                                 prefix="R$ "
                                                 value={formData.amount}
                                                 onValueChange={(value) => setFormData({ ...formData, amount: value ? value.replace(',', '.') : '' })}
-                                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-50 focus:border-indigo-400 outline-none font-bold text-gray-900"
+                                                className="w-full px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-4 focus:ring-indigo-50 dark:focus:ring-indigo-900/20 focus:border-indigo-400 outline-none font-bold text-gray-900 dark:text-white dark:bg-slate-700 transition-colors"
                                             />
                                         </div>
                                     </div>
 
                                     {(formData.type === 'DEPOSIT' || formData.type === 'WITHDRAWAL') && (
-                                        <div className="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100/50">
-                                            <label className="block text-sm font-bold text-indigo-900 mb-1.5">
+                                        <div className="bg-indigo-50/50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100/50 dark:border-indigo-800/50 transition-colors">
+                                            <label className="block text-sm font-bold text-indigo-900 dark:text-indigo-300 mb-1.5 transition-colors">
                                                 {formData.type === 'DEPOSIT' ? 'De qual conta bancária saiu o dinheiro?' : 'Para qual conta bancária o dinheiro foi?'}
                                             </label>
-                                            <select value={formData.bank_account_id} onChange={(e) => setFormData({ ...formData, bank_account_id: e.target.value })} className="w-full px-4 py-2.5 border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none bg-white text-sm">
+                                            <select value={formData.bank_account_id} onChange={(e) => setFormData({ ...formData, bank_account_id: e.target.value })} className="w-full px-4 py-2.5 border border-indigo-200 dark:border-indigo-800/50 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none bg-white dark:bg-slate-700 dark:text-white text-sm transition-colors">
                                                 <option value="">Não vincular a uma conta bancária</option>
                                                 {bankAccounts.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
                                             </select>
@@ -379,20 +379,20 @@ export const InvestimentosPage = () => {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-bold text-gray-700 mb-1.5">Data da Operação</label>
-                                            <input required type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-50 focus:border-indigo-400 outline-none text-gray-700 font-medium" />
+                                            <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1.5 transition-colors">Data da Operação</label>
+                                            <input required type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className="w-full px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-4 focus:ring-indigo-50 dark:focus:ring-indigo-900/20 focus:border-indigo-400 outline-none text-gray-700 dark:text-white dark:bg-slate-700 font-medium transition-colors" />
                                         </div>
                                         <div className="col-span-2">
-                                            <label className="block text-sm font-bold text-gray-700 mb-1.5">Notas (Opcional)</label>
-                                            <input type="text" value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-50 focus:border-indigo-400 outline-none text-gray-700" placeholder="Ex: Aporte mensal de salário" />
+                                            <label className="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-1.5 transition-colors">Notas (Opcional)</label>
+                                            <input type="text" value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} className="w-full px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-4 focus:ring-indigo-50 dark:focus:ring-indigo-900/20 focus:border-indigo-400 outline-none text-gray-700 dark:text-white dark:bg-slate-700 transition-colors" placeholder="Ex: Aporte mensal de salário" />
                                         </div>
                                     </div>
 
                                     <div className="pt-4 flex gap-3">
-                                        <button type="button" onClick={() => setModalOpen(false)} className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3.5 rounded-xl transition-colors">
+                                        <button type="button" onClick={() => setModalOpen(false)} className="flex-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-800 dark:text-slate-200 font-bold py-3.5 rounded-xl transition-colors">
                                             Cancelar
                                         </button>
-                                        <button type="submit" disabled={saving} className="flex-1 bg-gray-900 hover:bg-gray-800 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-gray-300 hover:shadow-xl disabled:opacity-70 disabled:hover:scale-100 active:scale-95 transform">
+                                        <button type="submit" disabled={saving} className="flex-1 bg-gray-900 dark:bg-indigo-600 hover:bg-gray-800 dark:hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-gray-300 dark:shadow-indigo-900/20 hover:shadow-xl disabled:opacity-70 disabled:hover:scale-100 active:scale-95 transform">
                                             {saving ? 'Processando...' : 'Confirmar Lançamento'}
                                         </button>
                                     </div>

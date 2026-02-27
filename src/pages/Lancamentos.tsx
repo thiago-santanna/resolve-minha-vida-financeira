@@ -279,7 +279,7 @@ export const LancamentosPage = () => {
             )}
 
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Lançamentos</h1>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight transition-colors">Lançamentos</h1>
                 <button
                     onClick={() => {
                         setEditingItem(null);
@@ -293,15 +293,15 @@ export const LancamentosPage = () => {
                 </button>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="p-4 border-b border-gray-100 flex gap-4 md:items-center flex-col md:flex-row justify-between bg-gray-50/50">
-                    <div className="flex items-center space-x-4 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-200">
-                        <button onClick={() => handleMonthChange('prev')} className="p-1 hover:text-primary transition-colors hover:bg-indigo-50 rounded">&larr;</button>
-                        <div className="flex items-center space-x-2 font-bold text-gray-700 w-32 justify-center">
-                            <Calendar size={18} className="text-primary" />
+            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden transition-colors">
+                <div className="p-4 border-b border-gray-100 dark:border-slate-700 flex gap-4 md:items-center flex-col md:flex-row justify-between bg-gray-50/50 dark:bg-slate-800/50 transition-colors">
+                    <div className="flex items-center space-x-4 bg-white dark:bg-slate-700 px-4 py-2 rounded-xl shadow-sm border border-gray-200 dark:border-slate-600 transition-colors">
+                        <button onClick={() => handleMonthChange('prev')} className="p-1 hover:text-primary dark:text-slate-300 dark:hover:text-indigo-400 transition-colors hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded">&larr;</button>
+                        <div className="flex items-center space-x-2 font-bold text-gray-700 dark:text-slate-200 w-32 justify-center transition-colors">
+                            <Calendar size={18} className="text-primary dark:text-indigo-400 transition-colors" />
                             <span>{currentMonth}</span>
                         </div>
-                        <button onClick={() => handleMonthChange('next')} className="p-1 hover:text-primary transition-colors hover:bg-indigo-50 rounded">&rarr;</button>
+                        <button onClick={() => handleMonthChange('next')} className="p-1 hover:text-primary dark:text-slate-300 dark:hover:text-indigo-400 transition-colors hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded">&rarr;</button>
                     </div>
                 </div>
 
@@ -335,18 +335,18 @@ export const LancamentosPage = () => {
                         ))}
                     </div>
                 ) : lancamentos.length === 0 ? (
-                    <div className="p-12 text-center text-gray-500">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 mb-4 border border-gray-100">
-                            <Search size={24} className="text-gray-400" />
+                    <div className="p-12 text-center text-gray-500 dark:text-slate-400 transition-colors">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 dark:bg-slate-700 mb-4 border border-gray-100 dark:border-slate-600 transition-colors">
+                            <Search size={24} className="text-gray-400 dark:text-slate-500 transition-colors" />
                         </div>
-                        <p className="text-lg font-medium text-gray-900">Nenhum lançamento neste mês</p>
-                        <p className="mt-1 text-sm">Clique em "Novo Lançamento" para começar.</p>
+                        <p className="text-lg font-medium text-gray-900 dark:text-white transition-colors">Nenhum lançamento neste mês</p>
+                        <p className="mt-1 text-sm dark:text-slate-400 transition-colors">Clique em "Novo Lançamento" para começar.</p>
                     </div>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="border-b border-gray-200 text-sm text-gray-500 bg-white">
+                                <tr className="border-b border-gray-200 dark:border-slate-700/50 text-sm text-gray-500 dark:text-slate-400 bg-white dark:bg-slate-800 transition-colors">
                                     <th className="py-4 px-6 font-medium">Data</th>
                                     <th className="py-4 px-6 font-medium">Descrição</th>
                                     <th className="py-4 px-6 font-medium">Categoria</th>
@@ -363,48 +363,48 @@ export const LancamentosPage = () => {
                                     const displayAmount = isPaid ? row.realized_amount : row.expected_amount;
 
                                     return (
-                                        <tr key={row.id + row.entity_type} className={`border-b border-gray-50 hover:bg-gray-50/50 transition-colors group ${isPaid ? 'opacity-70 bg-gray-50/30' : ''}`}>
-                                            <td className="py-4 px-6 text-sm text-gray-600 font-medium whitespace-nowrap">
+                                        <tr key={row.id + row.entity_type} className={`border-b border-gray-50 dark:border-slate-700/50 hover:bg-gray-50/50 dark:hover:bg-slate-700/50 transition-colors group ${isPaid ? 'opacity-70 bg-gray-50/30 dark:bg-slate-800/50' : ''}`}>
+                                            <td className="py-4 px-6 text-sm text-gray-600 dark:text-slate-300 font-medium whitespace-nowrap transition-colors">
                                                 {String(dateObj.getDate()).padStart(2, '0')}/{String(dateObj.getMonth() + 1).padStart(2, '0')}
-                                                {isPaid && <span className="block text-[10px] text-gray-400 font-normal">Pagamento</span>}
+                                                {isPaid && <span className="block text-[10px] text-gray-400 dark:text-slate-500 font-normal transition-colors">Pagamento</span>}
                                             </td>
-                                            <td className="py-4 px-6 font-medium text-gray-900">
+                                            <td className="py-4 px-6 font-medium text-gray-900 dark:text-white transition-colors">
                                                 <div className="flex items-center space-x-3">
-                                                    <div className={`p-2 rounded-lg ${isRevenue ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
+                                                    <div className={`p-2 rounded-lg transition-colors ${isRevenue ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' : 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400'}`}>
                                                         {isRevenue ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                                                     </div>
-                                                    <span className={isPaid ? 'line-through text-gray-500' : ''}>{row.description}</span>
+                                                    <span className={isPaid ? 'line-through text-gray-500 dark:text-slate-500 transition-colors' : 'transition-colors'}>{row.description}</span>
                                                 </div>
                                             </td>
-                                            <td className="py-4 px-6 text-sm text-gray-500">
+                                            <td className="py-4 px-6 text-sm text-gray-500 dark:text-slate-400 transition-colors">
                                                 {row.revenue_account_name || row.expense_account_name || '-'}
                                             </td>
                                             <td className="py-4 px-6">
-                                                <span className={`px-2.5 py-1 text-xs font-semibold rounded-md ${isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                                <span className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors ${isPaid ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400' : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400'}`}>
                                                     {isPaid ? (isRevenue ? 'Recebido' : 'Pago') : 'Pendente'}
                                                 </span>
                                             </td>
-                                            <td className={`py-4 px-6 text-right font-bold ${isRevenue ? 'text-emerald-600' : 'text-red-600'}`}>
+                                            <td className={`py-4 px-6 text-right font-bold transition-colors ${isRevenue ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
                                                 {isRevenue ? '+' : '-'}{formatCurrency(displayAmount)}
                                                 {isPaid && row.expected_amount !== displayAmount && (
-                                                    <div className="text-[10px] font-normal text-gray-400">Era {formatCurrency(row.expected_amount)}</div>
+                                                    <div className="text-[10px] font-normal text-gray-400 dark:text-slate-500 transition-colors">Era {formatCurrency(row.expected_amount)}</div>
                                                 )}
                                             </td>
                                             <td className="py-4 px-6 text-center space-x-1 whitespace-nowrap">
                                                 {!isPaid ? (
-                                                    <button onClick={() => openBaixaModal(row)} className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Dar Baixa">
+                                                    <button onClick={() => openBaixaModal(row)} className="p-2 text-gray-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg transition-colors" title="Dar Baixa">
                                                         <Check size={18} />
                                                     </button>
                                                 ) : (
-                                                    <button onClick={() => handleUndoBaixa(row)} className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors" title="Desfazer Baixa">
+                                                    <button onClick={() => handleUndoBaixa(row)} className="p-2 text-gray-400 dark:text-slate-500 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/30 rounded-lg transition-colors" title="Desfazer Baixa">
                                                         <Undo2 size={18} />
                                                     </button>
                                                 )}
 
-                                                <button onClick={() => openEditModal(row)} className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Editar">
+                                                <button onClick={() => openEditModal(row)} className="p-2 text-gray-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors" title="Editar">
                                                     <Edit2 size={18} />
                                                 </button>
-                                                <button onClick={() => setConfirmDelete({ isOpen: true, id: row.id, entity_type: row.entity_type, name: row.description })} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Excluir">
+                                                <button onClick={() => setConfirmDelete({ isOpen: true, id: row.id, entity_type: row.entity_type, name: row.description })} className="p-2 text-gray-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors" title="Excluir">
                                                     <Trash2 size={18} />
                                                 </button>
                                             </td>
@@ -419,24 +419,24 @@ export const LancamentosPage = () => {
 
             {/* Modal de Novo/Edição Lançamento / Lote */}
             {modalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm">
-                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                            <h2 className="text-xl font-bold text-gray-900">{editingItem ? 'Editar Lançamento' : 'Novo Lançamento'}</h2>
-                            <button onClick={() => { setModalOpen(false); setEditingItem(null); }} className="text-gray-400 hover:text-gray-600 p-1 bg-white rounded-full shadow-sm"><X size={20} /></button>
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 dark:bg-slate-900/80 backdrop-blur-sm transition-colors">
+                    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200 transition-colors">
+                        <div className="p-6 border-b border-gray-100 dark:border-slate-700/50 flex justify-between items-center bg-gray-50/50 dark:bg-slate-800/50 transition-colors">
+                            <h2 className="text-xl font-bold text-gray-900 dark:text-white transition-colors">{editingItem ? 'Editar Lançamento' : 'Novo Lançamento'}</h2>
+                            <button onClick={() => { setModalOpen(false); setEditingItem(null); }} className="text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200 p-1 bg-white dark:bg-slate-700 rounded-full shadow-sm transition-colors"><X size={20} /></button>
                         </div>
 
                         <div className="p-6">
                             {!editingItem && (
-                                <div className="flex p-1 bg-gray-100 rounded-xl mb-6">
+                                <div className="flex p-1 bg-gray-100 dark:bg-slate-700 rounded-xl mb-6 transition-colors">
                                     <button
-                                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${!isLote ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${!isLote ? 'bg-white dark:bg-slate-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'}`}
                                         onClick={() => setIsLote(false)}
                                     >
                                         Único
                                     </button>
                                     <button
-                                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${isLote ? 'bg-primary text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${isLote ? 'bg-primary text-white shadow-sm' : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'}`}
                                         onClick={() => setIsLote(true)}
                                     >
                                         Em Lote (Mensal)
@@ -446,12 +446,12 @@ export const LancamentosPage = () => {
 
                             <form onSubmit={handleSave} className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
-                                    <input required type="text" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" placeholder="Ex: Conta de Luz / Salário" />
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Descrição</label>
+                                    <input required type="text" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors" placeholder="Ex: Conta de Luz / Salário" />
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Valor (R$)</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Valor (R$)</label>
                                         <CurrencyInput
                                             id="amount"
                                             name="amount"
@@ -462,12 +462,12 @@ export const LancamentosPage = () => {
                                             prefix="R$ "
                                             value={formData.amount}
                                             onValueChange={(value) => setFormData({ ...formData, amount: value ? value.replace(',', '.') : '' })}
-                                            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none"
+                                            className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
-                                        <select disabled={!!editingItem} value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value, category_id: '' })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white disabled:opacity-50">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Tipo</label>
+                                        <select disabled={!!editingItem} value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value, category_id: '' })} className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white dark:bg-slate-700 dark:text-white disabled:opacity-50 transition-colors">
                                             <option value="expense">Despesa (-)</option>
                                             <option value="revenue">Receita (+)</option>
                                         </select>
@@ -475,39 +475,39 @@ export const LancamentosPage = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Categoria (Opcional)</label>
-                                    <select value={formData.category_id} onChange={(e) => setFormData({ ...formData, category_id: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Categoria (Opcional)</label>
+                                    <select value={formData.category_id} onChange={(e) => setFormData({ ...formData, category_id: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white dark:bg-slate-700 dark:text-white transition-colors">
                                         <option value="">Sem Categoria</option>
                                         {filteredCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                     </select>
                                 </div>
 
                                 {isLote && !editingItem ? (
-                                    <div className="grid grid-cols-2 gap-4 bg-indigo-50/50 p-4 rounded-xl border border-indigo-100/50">
+                                    <div className="grid grid-cols-2 gap-4 bg-indigo-50/50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100/50 dark:border-indigo-800/50 transition-colors">
                                         <div>
-                                            <label className="block text-sm font-medium text-primary mb-1">Data Início</label>
-                                            <input required type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className="w-full px-4 py-2.5 border border-indigo-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                                            <label className="block text-sm font-medium text-primary dark:text-indigo-400 mb-1 transition-colors">Data Início</label>
+                                            <input required type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className="w-full px-4 py-2.5 border border-indigo-200 dark:border-indigo-800/50 dark:bg-slate-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors" />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-primary mb-1">Nº Ocorrências</label>
-                                            <input required type="number" min="2" max="120" value={formData.occurrences} onChange={(e) => setFormData({ ...formData, occurrences: e.target.value })} placeholder="Ex: 12" className="w-full px-4 py-2.5 border border-indigo-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                                            <label className="block text-sm font-medium text-primary dark:text-indigo-400 mb-1 transition-colors">Nº Ocorrências</label>
+                                            <input required type="number" min="2" max="120" value={formData.occurrences} onChange={(e) => setFormData({ ...formData, occurrences: e.target.value })} placeholder="Ex: 12" className="w-full px-4 py-2.5 border border-indigo-200 dark:border-indigo-800/50 dark:bg-slate-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors" />
                                         </div>
-                                        <div className="col-span-2 text-xs text-indigo-600 flex items-center gap-2 mt-1">
+                                        <div className="col-span-2 text-xs text-indigo-600 dark:text-indigo-400 flex items-center gap-2 mt-1 transition-colors">
                                             <Clock size={14} /> Serão gerados {formData.occurrences} registros mensais.
                                         </div>
                                     </div>
                                 ) : (
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Data de Vencimento</label>
-                                        <input required type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Data de Vencimento</label>
+                                        <input required type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors" />
                                     </div>
                                 )}
 
                                 <div className="pt-4 flex gap-3">
-                                    <button type="button" onClick={() => { setModalOpen(false); setEditingItem(null); }} className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 rounded-xl transition-colors">
+                                    <button type="button" onClick={() => { setModalOpen(false); setEditingItem(null); }} className="flex-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-200 font-medium py-3 rounded-xl transition-colors">
                                         Cancelar
                                     </button>
-                                    <button type="submit" disabled={saving} className="flex-1 bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 rounded-xl transition-colors disabled:opacity-70">
+                                    <button type="submit" disabled={saving} className="flex-1 bg-gray-900 dark:bg-indigo-600 hover:bg-gray-800 dark:hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition-colors disabled:opacity-70">
                                         {saving ? 'Aguarde...' : `Salvar ${editingItem ? 'Alteração' : (isLote ? 'Lote' : 'Lançamento')}`}
                                     </button>
                                 </div>
@@ -519,21 +519,21 @@ export const LancamentosPage = () => {
 
             {/* Custom Confirm Delete Modal */}
             {confirmDelete && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-200">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/60 dark:bg-slate-900/80 backdrop-blur-sm animate-in fade-in duration-200 transition-colors">
+                    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-200 transition-colors">
                         <div className="p-6 text-center">
-                            <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors">
                                 <Trash2 size={32} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-2">Excluir Lançamento?</h3>
-                            <p className="text-gray-500 text-sm mb-6">
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">Excluir Lançamento?</h3>
+                            <p className="text-gray-500 dark:text-slate-400 text-sm mb-6 transition-colors">
                                 Tem certeza que quer excluir <strong>{confirmDelete.name}</strong>? Essa operação não pode ser desfeita.
                             </p>
                             <div className="flex gap-3">
-                                <button onClick={() => setConfirmDelete(null)} className="flex-1 py-3 px-4 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-colors">
+                                <button onClick={() => setConfirmDelete(null)} className="flex-1 py-3 px-4 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-200 font-medium rounded-xl hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors">
                                     Cancelar
                                 </button>
-                                <button onClick={processDelete} disabled={saving} className="flex-1 py-3 px-4 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 transition-colors shadow-sm disabled:opacity-70">
+                                <button onClick={processDelete} disabled={saving} className="flex-1 py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-colors shadow-sm disabled:opacity-70">
                                     {saving ? 'Aguarde...' : 'Sim, Excluir'}
                                 </button>
                             </div>
@@ -544,18 +544,18 @@ export const LancamentosPage = () => {
 
             {/* Baixa Modal (Dar Baixa) */}
             {baixaModalOpen && baixaItem && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm">
-                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                            <h2 className="text-xl font-bold text-gray-900">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 dark:bg-slate-900/80 backdrop-blur-sm transition-colors">
+                    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200 transition-colors">
+                        <div className="p-6 border-b border-gray-100 dark:border-slate-700/50 flex justify-between items-center bg-gray-50/50 dark:bg-slate-800/50 transition-colors">
+                            <h2 className="text-xl font-bold text-gray-900 dark:text-white transition-colors">
                                 {baixaItem.entity_type === 'revenue' ? 'Recebimento' : 'Pagamento'}
                             </h2>
-                            <button onClick={() => setBaixaModalOpen(false)} className="text-gray-400 hover:text-gray-600 p-1 bg-white rounded-full shadow-sm"><X size={20} /></button>
+                            <button onClick={() => setBaixaModalOpen(false)} className="text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200 p-1 bg-white dark:bg-slate-700 rounded-full shadow-sm transition-colors"><X size={20} /></button>
                         </div>
                         <div className="p-6">
                             <form onSubmit={handleProcessBaixa} className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Valor Efetivo (R$)</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Valor Efetivo (R$)</label>
                                     <CurrencyInput
                                         id="baixa-amount"
                                         name="baixa-amount"
@@ -566,22 +566,22 @@ export const LancamentosPage = () => {
                                         prefix="R$ "
                                         value={baixaForm.amount}
                                         onValueChange={(value) => setBaixaForm({ ...baixaForm, amount: value ? value.replace(',', '.') : '' })}
-                                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none"
+                                        className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Data Efetiva</label>
-                                    <input required type="date" value={baixaForm.date} onChange={(e) => setBaixaForm({ ...baixaForm, date: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Data Efetiva</label>
+                                    <input required type="date" value={baixaForm.date} onChange={(e) => setBaixaForm({ ...baixaForm, date: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors" />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Conta Bancária</label>
-                                    <select required value={baixaForm.bank_account_id} onChange={(e) => setBaixaForm({ ...baixaForm, bank_account_id: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Conta Bancária</label>
+                                    <select required value={baixaForm.bank_account_id} onChange={(e) => setBaixaForm({ ...baixaForm, bank_account_id: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white transition-colors">
                                         <option value="">Selecione a conta...</option>
                                         {bankAccounts.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
                                     </select>
                                 </div>
                                 <div className="pt-4 flex gap-3">
-                                    <button type="button" onClick={() => setBaixaModalOpen(false)} className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 rounded-xl transition-colors">
+                                    <button type="button" onClick={() => setBaixaModalOpen(false)} className="flex-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-200 font-medium py-3 rounded-xl transition-colors">
                                         Cancelar
                                     </button>
                                     <button type="submit" disabled={saving} className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl transition-colors disabled:opacity-70">

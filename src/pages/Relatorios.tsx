@@ -95,32 +95,32 @@ export const RelatoriosPage = () => {
         <div className="p-6 max-w-7xl mx-auto space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Relatórios Customizados</h1>
-                    <p className="text-gray-500 mt-1">Gere visões financeiras baseadas nos filtros selecionados.</p>
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight transition-colors">Relatórios Customizados</h1>
+                    <p className="text-gray-500 dark:text-slate-400 mt-1 transition-colors">Gere visões financeiras baseadas nos filtros selecionados.</p>
                 </div>
             </div>
 
             {/* Area de Filtros */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-4 items-end">
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex flex-col md:flex-row gap-4 items-end transition-colors">
                 <div className="w-full md:w-auto flex-1">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Data Início</label>
-                    <input type="date" value={filters.startDate} onChange={(e) => setFilters({ ...filters, startDate: e.target.value })} className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Data Início</label>
+                    <input type="date" value={filters.startDate} onChange={(e) => setFilters({ ...filters, startDate: e.target.value })} className="w-full px-4 py-2 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white dark:bg-slate-700 dark:text-white transition-colors" />
                 </div>
                 <div className="w-full md:w-auto flex-1">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Data Fim</label>
-                    <input type="date" value={filters.endDate} onChange={(e) => setFilters({ ...filters, endDate: e.target.value })} className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Data Fim</label>
+                    <input type="date" value={filters.endDate} onChange={(e) => setFilters({ ...filters, endDate: e.target.value })} className="w-full px-4 py-2 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white dark:bg-slate-700 dark:text-white transition-colors" />
                 </div>
                 <div className="w-full md:w-auto flex-1">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Lançamento</label>
-                    <select value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })} className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Tipo de Lançamento</label>
+                    <select value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })} className="w-full px-4 py-2 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white dark:bg-slate-700 dark:text-white transition-colors">
                         <option value="ALL">Receitas e Despesas</option>
                         <option value="REVENUE">Apenas Receitas</option>
                         <option value="EXPENSE">Apenas Despesas</option>
                     </select>
                 </div>
                 <div className="w-full md:w-auto flex-1">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                    <select value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })} className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Status</label>
+                    <select value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })} className="w-full px-4 py-2 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white dark:bg-slate-700 dark:text-white transition-colors">
                         <option value="ALL">Todos os status</option>
                         <option value="PENDING">Apenas Pendentes</option>
                         <option value="REALIZED">Apenas Efetivados</option>
@@ -130,73 +130,75 @@ export const RelatoriosPage = () => {
 
             {/* Area de Resumo (Cards) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-md transition-all">
                     <div className="flex justify-between items-center mb-3">
-                        <h3 className="text-gray-500 font-medium text-sm">Receitas Planejadas</h3>
-                        <TrendingUp size={18} className="text-gray-400" />
+                        <h3 className="text-gray-500 dark:text-slate-400 font-medium text-sm transition-colors">Receitas Planejadas</h3>
+                        <TrendingUp size={18} className="text-gray-400 dark:text-slate-500" />
                     </div>
-                    <p className="text-2xl font-bold text-gray-900">{formatCurrency(summary.revenue_expected)}</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white transition-colors">{formatCurrency(summary.revenue_expected)}</p>
                 </div>
-                <div className="bg-emerald-50 p-5 rounded-2xl shadow-sm border border-emerald-100 hover:shadow-md transition-shadow relative overflow-hidden">
+                <div className="bg-emerald-50 dark:bg-emerald-900/30 p-5 rounded-2xl shadow-sm border border-emerald-100 dark:border-emerald-800/50 hover:shadow-md transition-all relative overflow-hidden">
                     <div className="flex justify-between items-center mb-3 relative z-10">
-                        <h3 className="text-emerald-700 font-medium text-sm">Receitas Efetivadas</h3>
-                        <TrendingUp size={18} className="text-emerald-600" />
+                        <h3 className="text-emerald-700 dark:text-emerald-400 font-medium text-sm transition-colors">Receitas Efetivadas</h3>
+                        <TrendingUp size={18} className="text-emerald-600 dark:text-emerald-500" />
                     </div>
-                    <p className="text-2xl font-bold text-emerald-700 relative z-10">{formatCurrency(summary.revenue_realized)}</p>
+                    <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 relative z-10 transition-colors">{formatCurrency(summary.revenue_realized)}</p>
                 </div>
 
-                <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-md transition-all">
                     <div className="flex justify-between items-center mb-3">
-                        <h3 className="text-gray-500 font-medium text-sm">Despesas Planejadas</h3>
-                        <TrendingDown size={18} className="text-gray-400" />
+                        <h3 className="text-gray-500 dark:text-slate-400 font-medium text-sm transition-colors">Despesas Planejadas</h3>
+                        <TrendingDown size={18} className="text-gray-400 dark:text-slate-500" />
                     </div>
-                    <p className="text-2xl font-bold text-gray-900">{formatCurrency(summary.expense_expected)}</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white transition-colors">{formatCurrency(summary.expense_expected)}</p>
                 </div>
-                <div className="bg-red-50 p-5 rounded-2xl shadow-sm border border-red-100 hover:shadow-md transition-shadow relative overflow-hidden">
+                <div className="bg-red-50 dark:bg-red-900/30 p-5 rounded-2xl shadow-sm border border-red-100 dark:border-red-800/50 hover:shadow-md transition-all relative overflow-hidden">
                     <div className="flex justify-between items-center mb-3 relative z-10">
-                        <h3 className="text-red-700 font-medium text-sm">Despesas Efetivadas</h3>
-                        <TrendingDown size={18} className="text-red-600" />
+                        <h3 className="text-red-700 dark:text-red-400 font-medium text-sm transition-colors">Despesas Efetivadas</h3>
+                        <TrendingDown size={18} className="text-red-600 dark:text-red-500" />
                     </div>
-                    <p className="text-2xl font-bold text-red-700 relative z-10">{formatCurrency(summary.expense_realized)}</p>
+                    <p className="text-2xl font-bold text-red-700 dark:text-red-300 relative z-10 transition-colors">{formatCurrency(summary.expense_realized)}</p>
                 </div>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl shadow-sm border border-indigo-100 flex items-center justify-between">
-                <div className="flex-1">
-                    <h3 className="text-indigo-900 font-bold mb-1">Resultado Projetado (Esperado)</h3>
-                    <p className="text-xl font-bold text-gray-900">{formatCurrency(summary.revenue_expected - summary.expense_expected)}</p>
+            <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-indigo-100 dark:border-indigo-900/50 flex flex-col sm:flex-row items-center justify-between transition-colors gap-4 sm:gap-0">
+                <div className="flex-1 w-full sm:w-auto text-center sm:text-left">
+                    <h3 className="text-indigo-900 dark:text-indigo-300 font-bold mb-1 transition-colors">Resultado Projetado (Esperado)</h3>
+                    <p className="text-xl font-bold text-gray-900 dark:text-white transition-colors">{formatCurrency(summary.revenue_expected - summary.expense_expected)}</p>
                 </div>
-                <div className="w-px h-12 bg-indigo-100 mx-6"></div>
-                <div className="flex-1">
-                    <h3 className="text-indigo-900 font-bold mb-1">Resultado Realizado (Efetivo)</h3>
-                    <p className={`text-xl font-bold ${(summary.revenue_realized - summary.expense_realized) >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                <div className="w-full sm:w-px h-px sm:h-12 bg-indigo-100 dark:bg-indigo-900/50 sm:mx-6 transition-colors"></div>
+                <div className="flex-1 w-full sm:w-auto text-center sm:text-left">
+                    <h3 className="text-indigo-900 dark:text-indigo-300 font-bold mb-1 transition-colors">Resultado Realizado (Efetivo)</h3>
+                    <p className={`text-xl font-bold transition-colors ${(summary.revenue_realized - summary.expense_realized) >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
                         {formatCurrency(summary.revenue_realized - summary.expense_realized)}
                     </p>
                 </div>
-                <div className="p-4 bg-indigo-50 text-indigo-600 rounded-xl shadow-inner ml-6"><DollarSign size={24} /></div>
+                <div className="w-full sm:w-auto flex justify-center sm:block mt-4 sm:mt-0">
+                    <div className="p-4 bg-indigo-50 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 rounded-xl shadow-inner transition-colors"><DollarSign size={24} /></div>
+                </div>
             </div>
 
             {/* Tabela de Resultados */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                    <h2 className="text-lg font-bold text-gray-900">Extrato Detalhado do Período</h2>
-                    <span className="text-sm font-medium text-gray-500">{resultados.length} registros encontrados</span>
+            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden transition-colors">
+                <div className="p-4 border-b border-gray-100 dark:border-slate-700/50 flex justify-between items-center bg-gray-50/50 dark:bg-slate-800/50 transition-colors">
+                    <h2 className="text-lg font-bold text-gray-900 dark:text-white transition-colors">Extrato Detalhado do Período</h2>
+                    <span className="text-sm font-medium text-gray-500 dark:text-slate-400 transition-colors">{resultados.length} registros encontrados</span>
                 </div>
 
                 {loading ? (
                     <div className="py-20 text-center"><Spinner /></div>
                 ) : resultados.length === 0 ? (
-                    <div className="p-12 text-center text-gray-500">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 mb-4 border border-gray-100">
-                            <Filter size={24} className="text-gray-400" />
+                    <div className="p-12 text-center text-gray-500 dark:text-slate-400 transition-colors">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 dark:bg-slate-700 mb-4 border border-gray-100 dark:border-slate-600 transition-colors">
+                            <Filter size={24} className="text-gray-400 dark:text-slate-500" />
                         </div>
-                        <p className="text-lg font-medium text-gray-900">Nenhum dado encontrado com os filtros atuais.</p>
+                        <p className="text-lg font-medium text-gray-900 dark:text-white transition-colors">Nenhum dado encontrado com os filtros atuais.</p>
                     </div>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500 bg-white">
+                                <tr className="border-b border-gray-200 dark:border-slate-700 text-xs uppercase tracking-wider text-gray-500 dark:text-slate-400 bg-white dark:bg-slate-800 transition-colors">
                                     <th className="py-3 px-6 font-semibold">Data Previsão</th>
                                     <th className="py-3 px-6 font-semibold">Descrição</th>
                                     <th className="py-3 px-6 font-semibold">Categoria</th>
@@ -206,7 +208,7 @@ export const RelatoriosPage = () => {
                                     <th className="py-3 px-6 font-semibold text-right">Valor Realizado</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-50">
+                            <tbody className="divide-y divide-gray-50 dark:divide-slate-700/50 transition-colors">
                                 {resultados.map((row: any) => {
                                     const isRevenue = row.entity_type === 'revenue';
                                     const isPaid = row.status === 'PAID' || row.status === 'RECEIVED';
@@ -214,31 +216,31 @@ export const RelatoriosPage = () => {
                                     const doneObj = isPaid ? new Date((row.paid_date || row.received_date) + 'T00:00:00') : null;
 
                                     return (
-                                        <tr key={row.id + row.entity_type} className="hover:bg-gray-50/50 transition-colors">
-                                            <td className="py-3 px-6 text-sm text-gray-500 whitespace-nowrap">
+                                        <tr key={row.id + row.entity_type} className="hover:bg-gray-50/50 dark:hover:bg-slate-700/50 transition-colors">
+                                            <td className="py-3 px-6 text-sm text-gray-500 dark:text-slate-400 whitespace-nowrap transition-colors">
                                                 {String(dueObj.getDate()).padStart(2, '0')}/{String(dueObj.getMonth() + 1).padStart(2, '0')}/{dueObj.getFullYear()}
                                             </td>
-                                            <td className="py-3 px-6 text-sm font-medium text-gray-900">
+                                            <td className="py-3 px-6 text-sm font-medium text-gray-900 dark:text-white transition-colors">
                                                 <div className="flex items-center gap-2">
-                                                    {isRevenue ? <TrendingUp size={14} className="text-emerald-500" /> : <TrendingDown size={14} className="text-red-500" />}
+                                                    {isRevenue ? <TrendingUp size={14} className="text-emerald-500 dark:text-emerald-400" /> : <TrendingDown size={14} className="text-red-500 dark:text-red-400" />}
                                                     {row.description}
                                                 </div>
                                             </td>
-                                            <td className="py-3 px-6 text-sm text-gray-500">
+                                            <td className="py-3 px-6 text-sm text-gray-500 dark:text-slate-400 transition-colors">
                                                 {row.revenue_account_name || row.expense_account_name || '-'}
                                             </td>
                                             <td className="py-3 px-6 text-center">
-                                                <span className={`px-2 py-1 text-[10px] font-bold uppercase rounded-md ${isPaid ? 'bg-emerald-100 text-emerald-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                                <span className={`px-2 py-1 text-[10px] font-bold uppercase rounded-md transition-colors ${isPaid ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400' : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400'}`}>
                                                     {isPaid ? 'Efetivado' : 'Pendente'}
                                                 </span>
                                             </td>
-                                            <td className={`py-3 px-6 text-sm text-right font-medium ${isRevenue ? 'text-emerald-600' : 'text-red-600'}`}>
+                                            <td className={`py-3 px-6 text-sm text-right font-medium transition-colors ${isRevenue ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
                                                 {isRevenue ? '+' : '-'}{formatCurrency(row.expected_amount)}
                                             </td>
-                                            <td className="py-3 px-6 text-sm text-gray-500 text-right whitespace-nowrap">
+                                            <td className="py-3 px-6 text-sm text-gray-500 dark:text-slate-400 text-right whitespace-nowrap transition-colors">
                                                 {doneObj ? `${String(doneObj.getDate()).padStart(2, '0')}/${String(doneObj.getMonth() + 1).padStart(2, '0')}/${doneObj.getFullYear()}` : '-'}
                                             </td>
-                                            <td className={`py-3 px-6 text-sm text-right font-bold ${isPaid ? (isRevenue ? 'text-emerald-700' : 'text-red-700') : 'text-gray-400'}`}>
+                                            <td className={`py-3 px-6 text-sm text-right font-bold transition-colors ${isPaid ? (isRevenue ? 'text-emerald-700 dark:text-emerald-400' : 'text-red-700 dark:text-red-400') : 'text-gray-400 dark:text-slate-500'}`}>
                                                 {isPaid ? (isRevenue ? '+' : '-') + formatCurrency(row.realized_amount) : '-'}
                                             </td>
                                         </tr>

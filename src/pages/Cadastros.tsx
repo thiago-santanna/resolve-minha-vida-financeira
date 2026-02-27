@@ -157,25 +157,25 @@ export const CadastrosPage = () => {
             )}
 
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Cadastros</h1>
-                <p className="text-gray-500">Gestão de domínios estruturais</p>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight transition-colors">Cadastros</h1>
+                <p className="text-gray-500 dark:text-slate-400 transition-colors">Gestão de domínios estruturais</p>
             </div>
 
             {/* Abas e Painéis */}
-            <div className="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="flex items-center gap-2 p-2 border-b border-gray-100 overflow-x-auto no-scrollbar">
+            <div className="mt-8 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden transition-colors">
+                <div className="flex items-center gap-2 p-2 border-b border-gray-100 dark:border-slate-700/50 overflow-x-auto no-scrollbar transition-colors">
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-medium whitespace-nowrap transition-all ${activeTab === tab.id
-                                ? 'bg-indigo-50 text-indigo-700 shadow-sm'
-                                : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+                                ? 'bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 shadow-sm'
+                                : 'text-gray-500 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-700/50 hover:text-gray-900 dark:hover:text-white'
                                 }`}
                         >
                             <tab.icon size={18} />
                             <span>{tab.label}</span>
-                            <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === tab.id ? 'bg-indigo-200 text-indigo-800' : 'bg-gray-100 text-gray-500'
+                            <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold transition-colors ${activeTab === tab.id ? 'bg-indigo-200 dark:bg-indigo-500/30 text-indigo-800 dark:text-indigo-200' : 'bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-slate-400'
                                 }`}>
                                 {tab.count}
                             </span>
@@ -185,10 +185,10 @@ export const CadastrosPage = () => {
 
                 <div className="p-6">
                     <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-xl font-bold text-gray-900">
+                        <h2 className="text-xl font-bold text-gray-900 dark:text-white transition-colors">
                             {tabs.find(t => t.id === activeTab)?.label}
                         </h2>
-                        <button onClick={() => openModal()} className="flex items-center space-x-2 bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors">
+                        <button onClick={() => openModal()} className="flex items-center space-x-2 bg-gray-900 dark:bg-indigo-600 hover:bg-gray-800 dark:hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors">
                             <Plus size={16} />
                             <span>Novo</span>
                         </button>
@@ -197,14 +197,14 @@ export const CadastrosPage = () => {
                     {loadingData ? (
                         <div className="py-12"><Spinner /></div>
                     ) : data[activeTab].length === 0 ? (
-                        <div className="py-12 text-center text-gray-500 border-2 border-dashed border-gray-100 rounded-2xl">
+                        <div className="py-12 text-center text-gray-500 dark:text-slate-400 border-2 border-dashed border-gray-100 dark:border-slate-700/50 rounded-2xl transition-colors">
                             Nenhum registro encontrado. Crie um novo ou utilize o Seed acima para preencher automaticamente.
                         </div>
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <thead>
-                                    <tr className="border-b border-gray-200 text-sm text-gray-500">
+                                    <tr className="border-b border-gray-200 dark:border-slate-700/50 text-sm text-gray-500 dark:text-slate-400 transition-colors">
                                         <th className="py-3 px-4 font-medium">Nome / Descrição</th>
                                         {activeTab === 'bank_accounts' && <th className="py-3 px-4 font-medium">Banco Vinculado</th>}
                                         {activeTab === 'investment_accounts' && <th className="py-3 px-4 font-medium">Tipo</th>}
@@ -214,37 +214,37 @@ export const CadastrosPage = () => {
                                 </thead>
                                 <tbody>
                                     {data[activeTab].map((row: any) => (
-                                        <tr key={row.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                                            <td className="py-4 px-4 font-medium text-gray-900">
+                                        <tr key={row.id} className="border-b border-gray-50 dark:border-slate-700/50 hover:bg-gray-50/50 dark:hover:bg-slate-700/50 transition-colors">
+                                            <td className="py-4 px-4 font-medium text-gray-900 dark:text-white transition-colors">
                                                 {row.name}
-                                                {row.code && <span className="ml-2 px-2 py-0.5 bg-gray-100 text-gray-500 rounded-md text-xs">{row.code}</span>}
+                                                {row.code && <span className="ml-2 px-2 py-0.5 bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-slate-400 rounded-md text-xs transition-colors">{row.code}</span>}
                                             </td>
 
                                             {activeTab === 'bank_accounts' && (
-                                                <td className="py-4 px-4 text-gray-600">{row.banks?.name || '-'}</td>
+                                                <td className="py-4 px-4 text-gray-600 dark:text-slate-300 transition-colors">{row.banks?.name || '-'}</td>
                                             )}
                                             {activeTab === 'investment_accounts' && (
-                                                <td className="py-4 px-4 text-gray-600">
-                                                    <span className="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-md text-xs font-semibold">{row.type}</span>
+                                                <td className="py-4 px-4 text-gray-600 dark:text-slate-300 transition-colors">
+                                                    <span className="px-2.5 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 rounded-md text-xs font-semibold transition-colors">{row.type}</span>
                                                 </td>
                                             )}
                                             {activeTab === 'expense_accounts' && (
                                                 <td className="py-4 px-4">
                                                     {row.kind === 'fixa' ? (
-                                                        <span className="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-semibold">Despesa Fixa</span>
+                                                        <span className="px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-md text-xs font-semibold transition-colors">Despesa Fixa</span>
                                                     ) : (
-                                                        <span className="px-2.5 py-1 bg-orange-50 text-orange-700 rounded-md text-xs font-semibold">Variável</span>
+                                                        <span className="px-2.5 py-1 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-md text-xs font-semibold transition-colors">Variável</span>
                                                     )}
                                                 </td>
                                             )}
 
                                             <td className="py-4 px-4 text-right space-x-2">
-                                                <button onClick={() => openModal(row)} className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+                                                <button onClick={() => openModal(row)} className="p-2 text-gray-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors">
                                                     <Edit2 size={18} />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDeleteClick(activeTab, row.id, row.name)}
-                                                    className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                    className="p-2 text-gray-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
                                                 >
                                                     <Trash2 size={18} />
                                                 </button>
@@ -260,36 +260,36 @@ export const CadastrosPage = () => {
 
             {/* Modal de Formulário */}
             {modalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm">
-                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                            <h2 className="text-xl font-bold text-gray-900">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 dark:bg-slate-900/80 backdrop-blur-sm transition-colors">
+                    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200 transition-colors">
+                        <div className="p-6 border-b border-gray-100 dark:border-slate-700/50 flex justify-between items-center bg-gray-50/50 dark:bg-slate-800/50 transition-colors">
+                            <h2 className="text-xl font-bold text-gray-900 dark:text-white transition-colors">
                                 {editingItem ? 'Editar Registro' : 'Novo Registro'}
                             </h2>
-                            <button onClick={() => setModalOpen(false)} className="text-gray-400 hover:text-gray-600 p-1 bg-white rounded-full shadow-sm">
+                            <button onClick={() => setModalOpen(false)} className="text-gray-400 hover:text-gray-600 dark:text-slate-400 dark:hover:text-slate-200 p-1 bg-white dark:bg-slate-700 rounded-full shadow-sm transition-colors">
                                 <X size={20} />
                             </button>
                         </div>
                         <div className="p-6">
                             <form onSubmit={handleSave} className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Nome / Descrição</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Nome / Descrição</label>
                                     <input
                                         type="text" required
                                         value={formData.name || ''}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                                        className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:bg-slate-700 dark:text-white transition-colors"
                                     />
                                 </div>
 
                                 {activeTab === 'banks' && (
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Código do Banco (Opcional)</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Código do Banco (Opcional)</label>
                                         <input
                                             type="text"
                                             value={formData.code || ''}
                                             onChange={(e) => setFormData({ ...formData, code: e.target.value })}
-                                            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                                            className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none dark:bg-slate-700 dark:text-white transition-colors"
                                         />
                                     </div>
                                 )}
@@ -297,12 +297,12 @@ export const CadastrosPage = () => {
                                 {activeTab === 'bank_accounts' && (
                                     <>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Banco Vinculado</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Banco Vinculado</label>
                                             <select
                                                 required
                                                 value={formData.bank_id || ''}
                                                 onChange={(e) => setFormData({ ...formData, bank_id: e.target.value })}
-                                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white"
+                                                className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white dark:bg-slate-700 dark:text-white transition-colors"
                                             >
                                                 <option value="">Selecione um banco...</option>
                                                 {data.banks.map((b: any) => <option key={b.id} value={b.id}>{b.name}</option>)}
@@ -310,11 +310,11 @@ export const CadastrosPage = () => {
                                         </div>
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Conta</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Tipo de Conta</label>
                                                 <select
                                                     value={formData.type || ''}
                                                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white"
+                                                    className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white dark:bg-slate-700 dark:text-white transition-colors"
                                                 >
                                                     <option>Conta Corrente</option>
                                                     <option>Poupança</option>
@@ -322,7 +322,7 @@ export const CadastrosPage = () => {
                                                 </select>
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Saldo Inic. (R$)</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Saldo Inic. (R$)</label>
                                                 <CurrencyInput
                                                     id="initial_balance"
                                                     name="initial_balance"
@@ -333,7 +333,7 @@ export const CadastrosPage = () => {
                                                     prefix="R$ "
                                                     value={formData.initial_balance || 0}
                                                     onValueChange={(value) => setFormData({ ...formData, initial_balance: value ? parseFloat(value.replace(',', '.')) : 0 })}
-                                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none"
+                                                    className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none dark:bg-slate-700 dark:text-white transition-colors"
                                                 />
                                             </div>
                                         </div>
@@ -342,11 +342,11 @@ export const CadastrosPage = () => {
 
                                 {activeTab === 'expense_accounts' && (
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Natureza da Despesa</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Natureza da Despesa</label>
                                         <select
                                             value={formData.kind || ''}
                                             onChange={(e) => setFormData({ ...formData, kind: e.target.value })}
-                                            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white"
+                                            className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white dark:bg-slate-700 dark:text-white transition-colors"
                                         >
                                             <option value="variavel">Variável (Lazer, Mercado...)</option>
                                             <option value="fixa">Fixa (Aluguel, Luz...)</option>
@@ -357,20 +357,20 @@ export const CadastrosPage = () => {
                                 {activeTab === 'investment_accounts' && (
                                     <>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Instituição (Corretora/Banco)</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Instituição (Corretora/Banco)</label>
                                             <input
                                                 type="text" required
                                                 value={formData.institution_name || ''}
                                                 onChange={(e) => setFormData({ ...formData, institution_name: e.target.value })}
-                                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none"
+                                                className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none dark:bg-slate-700 dark:text-white transition-colors"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Investimento</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Tipo de Investimento</label>
                                             <select
                                                 value={formData.type || ''}
                                                 onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white"
+                                                className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white dark:bg-slate-700 dark:text-white transition-colors"
                                             >
                                                 <option>Renda Fixa</option>
                                                 <option>Ações/FIIs</option>
@@ -383,10 +383,10 @@ export const CadastrosPage = () => {
                                 )}
 
                                 <div className="pt-4 flex space-x-3">
-                                    <button type="button" onClick={() => setModalOpen(false)} className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors">
+                                    <button type="button" onClick={() => setModalOpen(false)} className="flex-1 px-4 py-3 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-200 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors">
                                         Cancelar
                                     </button>
-                                    <button type="submit" disabled={saving} className="flex-1 px-4 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors disabled:opacity-70">
+                                    <button type="submit" disabled={saving} className="flex-1 px-4 py-3 bg-gray-900 dark:bg-indigo-600 text-white rounded-xl font-medium hover:bg-gray-800 dark:hover:bg-indigo-500 transition-colors disabled:opacity-70">
                                         {saving ? 'Aguarde...' : 'Salvar'}
                                     </button>
                                 </div>
@@ -398,21 +398,21 @@ export const CadastrosPage = () => {
 
             {/* Custom Confirm Delete Modal */}
             {confirmDelete && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-200">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/60 dark:bg-slate-900/80 backdrop-blur-sm animate-in fade-in duration-200 transition-colors">
+                    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-200 transition-colors">
                         <div className="p-6 text-center">
-                            <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors">
                                 <Trash2 size={32} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-2">Excluir Registro?</h3>
-                            <p className="text-gray-500 text-sm mb-6">
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">Excluir Registro?</h3>
+                            <p className="text-gray-500 dark:text-slate-400 text-sm mb-6 transition-colors">
                                 Tem certeza que quer excluir <strong>{confirmDelete.name}</strong>? Essa operação não pode ser desfeita. (Se houver lançamentos atrelados a ele, a exclusão será bloqueada).
                             </p>
                             <div className="flex gap-3">
-                                <button onClick={() => setConfirmDelete(null)} className="flex-1 py-3 px-4 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-colors">
+                                <button onClick={() => setConfirmDelete(null)} className="flex-1 py-3 px-4 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-200 font-medium rounded-xl hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors">
                                     Cancelar
                                 </button>
-                                <button onClick={processDelete} className="flex-1 py-3 px-4 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 transition-colors shadow-sm shadow-red-600/30">
+                                <button onClick={processDelete} className="flex-1 py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-colors shadow-sm shadow-red-600/30">
                                     Sim, Excluir
                                 </button>
                             </div>
