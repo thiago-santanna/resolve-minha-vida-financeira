@@ -146,6 +146,13 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
                         </div>
                         <span className="text-lg font-bold text-gray-900">Financeiro</span>
                     </div>
+                    <button 
+                        onClick={signOut} 
+                        className="p-2 text-gray-500 hover:text-red-600 bg-gray-50 hover:bg-red-50 rounded-xl transition-colors"
+                        title="Sair"
+                    >
+                        <LogOut size={22} />
+                    </button>
                 </header>
 
                 <div className="flex-1 overflow-y-auto w-full pb-20 lg:pb-0 hide-scrollbar">
