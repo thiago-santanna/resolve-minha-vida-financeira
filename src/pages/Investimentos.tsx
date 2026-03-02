@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, TrendingUp, ArrowUpRight, DollarSign, Building2, Activity, ShieldCheck, PieChart as PieChartIcon } from 'lucide-react';
+import { Plus, TrendingUp, ArrowUpRight, DollarSign, Building2, Activity, ShieldCheck, PieChart as PieChartIcon, Trash2, Edit2, AlertCircle } from 'lucide-react';
 import CurrencyInput from 'react-currency-input-field';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -18,6 +18,9 @@ export const InvestimentosPage = () => {
     const [accounts, setAccounts] = useState<any[]>([]);
     const [bankAccounts, setBankAccounts] = useState<any[]>([]);
     const [portfolioData, setPortfolioData] = useState<any[]>([]);
+    const [transactions, setTransactions] = useState<any[]>([]);
+    const [editingItem, setEditingItem] = useState<any>(null);
+    const [confirmDelete, setConfirmDelete] = useState<any>(null);
 
     // Resumo Geral
     const [summary, setSummary] = useState({
@@ -52,6 +55,7 @@ export const InvestimentosPage = () => {
 
             setAccounts(invAccs || []);
             setBankAccounts(bAccs || []);
+            setTransactions((invs || []).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()));
 
             // Processando a carteira
             const portfolioMap = new Map();
@@ -133,23 +137,17 @@ export const InvestimentosPage = () => {
                 bank_account_id: (formData.type === 'DEPOSIT' || formData.type === 'WITHDRAWAL') ? (formData.bank_account_id || null) : null
             };
 
-            const { error: invError } = await supabase.from('investments').insert([payload]);
-            if (invError) throw invError;
+            if (editingItem) {
+                const { error: invError } = await supabase.from('investments').update(payload).eq('id', editingItem.id);
+                if (invError) throw invError;
+                showToast('Movimentação atualizada com sucesso!', 'success');
+            } else {
+                const { error: invError } = await supabase.from('investments').insert([payload]);
+                if (invError) throw invError;
+                showToast('Movimentação registrada com sucesso!', 'success');
+            }
 
-            // Opcional: Aqui poderíamos automatizar o reflexo na conta bancária (inserindo em receipts/payments ou outra tabela). 
-            // Para mantermos focado no escopo atual da Sprint, faremos apenas o registro do lado do investimento e consideraremos que o usuário tem maturidade para conciliar.
-            // Num sistema robusto final, uma TRIGGER no banco resolveria a comunicação bidirecional.
-
-            showToast('Movimentação registrada com sucesso!', 'success');
-            setModalOpen(false);
-            setFormData({
-                investment_account_id: '',
-                type: 'DEPOSIT',
-                amount: '',
-                date: new Date().toISOString().split('T')[0],
-                bank_account_id: '',
-                notes: ''
-            });
+            closeModal();
             await loadData();
         } catch (error: any) {
             console.error(error);
@@ -158,6 +156,50 @@ export const InvestimentosPage = () => {
             setSaving(false);
         }
     };
+
+    const processDelete = async () => {
+        if (!confirmDelete) return;
+        setSaving(true);
+        try {
+            const { error } = await supabase.from('investments').delete().eq('id', confirmDelete.id);
+            if (error) throw error;
+            showToast('Movimentação excluída com sucesso!', 'success');
+            setConfirmDelete(null);
+            await loadData();
+        } catch (error: any) {
+            console.error(error);
+            showToast('Erro ao excluir: ' + error.message, 'error');
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const openEditModal = (item: any) => {
+        setEditingItem(item);
+        setFormData({
+            investment_account_id: item.investment_account_id,
+            type: item.type,
+            amount: item.amount,
+            date: item.date,
+            bank_account_id: item.bank_account_id || '',
+            notes: item.notes || ''
+        });
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        setEditingItem(null);
+        setFormData({
+            investment_account_id: '',
+            type: 'DEPOSIT',
+            amount: '',
+            date: new Date().toISOString().split('T')[0],
+            bank_account_id: '',
+            notes: ''
+        });
+    };
+
 
     const formatCurrency = (val: number) => {
         return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val || 0);
@@ -169,6 +211,16 @@ export const InvestimentosPage = () => {
             case 'CDB': return <ShieldCheck size={24} className="text-emerald-500" />;
             case 'Cripto': return <Activity size={24} className="text-amber-500" />;
             default: return <PieChartIcon size={24} className="text-blue-500" />;
+        }
+    };
+
+    const getTypeLabel = (type: string) => {
+        switch (type) {
+            case 'DEPOSIT': return 'Aporte';
+            case 'WITHDRAWAL': return 'Resgate';
+            case 'EARNINGS': return 'Rendimento (+)';
+            case 'FEE': return 'Taxa (-)';
+            default: return type;
         }
     };
 
@@ -315,9 +367,11 @@ export const InvestimentosPage = () => {
                         <div className="px-6 py-5 border-b border-gray-100 dark:border-slate-700 flex justify-between items-center bg-gray-50/50 dark:bg-slate-800/50 transition-colors">
                             <div className="flex items-center space-x-3">
                                 <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl transition-colors"><DollarSign size={20} /></div>
-                                <h2 className="text-xl font-extrabold text-gray-900 dark:text-white transition-colors">Registrar Movimentação</h2>
+                                <h2 className="text-xl font-extrabold text-gray-900 dark:text-white transition-colors">
+                                    {editingItem ? 'Editar Movimentação' : 'Registrar Movimentação'}
+                                </h2>
                             </div>
-                            <button onClick={() => setModalOpen(false)} className="text-gray-400 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 p-2 bg-white dark:bg-slate-700 rounded-full shadow-sm border border-gray-100 dark:border-slate-600 transition-all hover:scale-105">
+                            <button onClick={closeModal} className="text-gray-400 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 p-2 bg-white dark:bg-slate-700 rounded-full shadow-sm border border-gray-100 dark:border-slate-600 transition-all hover:scale-105">
                                 X
                             </button>
                         </div>
@@ -387,7 +441,7 @@ export const InvestimentosPage = () => {
                                     </div>
 
                                     <div className="pt-4 flex gap-3">
-                                        <button type="button" onClick={() => setModalOpen(false)} className="flex-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-800 dark:text-slate-200 font-bold py-3.5 rounded-xl transition-colors">
+                                        <button type="button" onClick={closeModal} className="flex-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-800 dark:text-slate-200 font-bold py-3.5 rounded-xl transition-colors">
                                             Cancelar
                                         </button>
                                         <button type="submit" disabled={saving} className="flex-1 bg-gray-900 dark:bg-indigo-600 hover:bg-gray-800 dark:hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-gray-300 dark:shadow-indigo-900/20 hover:shadow-xl disabled:opacity-70 disabled:hover:scale-100 active:scale-95 transform">
@@ -396,6 +450,98 @@ export const InvestimentosPage = () => {
                                     </div>
                                 </form>
                             )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Extrato (CRUD) */}
+            <div className="mt-12 bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-700 transition-colors">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                    <div>
+                        <h2 className="text-xl font-bold text-gray-900 dark:text-white transition-colors flex items-center gap-2">
+                            Extrato Escrito
+                        </h2>
+                        <p className="text-sm text-gray-500 dark:text-slate-400 mt-1 transition-colors">Histórico de aplicações e rendimentos por data</p>
+                    </div>
+                </div>
+
+                {transactions.length === 0 ? (
+                    <div className="text-center py-10 bg-gray-50 dark:bg-slate-800/50 rounded-2xl border border-dashed border-gray-300 dark:border-slate-600 transition-colors">
+                        <Activity size={40} className="mx-auto text-gray-300 dark:text-slate-500 mb-3" />
+                        <p className="text-gray-500 dark:text-slate-400 font-medium font-sm transition-colors">Nenhum investimento registrado</p>
+                    </div>
+                ) : (
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse min-w-[700px]">
+                            <thead>
+                                <tr className="border-b border-gray-100 dark:border-slate-700/50 text-xs uppercase tracking-wider text-gray-500 dark:text-slate-400 font-bold transition-colors">
+                                    <th className="py-4 pl-4 font-semibold">Data</th>
+                                    <th className="py-4 font-semibold">Ativo/Conta</th>
+                                    <th className="py-4 font-semibold">Tipo</th>
+                                    <th className="py-4 font-semibold text-right">Valor</th>
+                                    <th className="py-4 font-semibold text-center pr-4">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-50 dark:divide-slate-700/50">
+                                {transactions.map((t) => {
+                                    const account = accounts.find(a => a.id === t.investment_account_id);
+                                    const dateObj = new Date(t.date + 'T00:00:00');
+                                    const formattedDate = dateObj.toLocaleDateString('pt-BR');
+                                    const isPositive = t.type === 'DEPOSIT' || t.type === 'EARNINGS';
+
+                                    return (
+                                        <tr key={t.id} className="hover:bg-gray-50 dark:hover:bg-slate-700/30 transition-colors group">
+                                            <td className="py-3 px-4 text-sm text-gray-700 dark:text-slate-300 font-medium whitespace-nowrap transition-colors">{formattedDate}</td>
+                                            <td className="py-3 text-sm font-semibold text-gray-900 dark:text-white transition-colors">
+                                                {account ? `${account.name} (${account.institution_name})` : 'Conta Removida'}
+                                                {t.notes && <p className="text-xs text-gray-500 dark:text-slate-400 font-normal">{t.notes}</p>}
+                                            </td>
+                                            <td className="py-3 text-sm">
+                                                <span className={`px-2.5 py-1 text-xs font-bold rounded-md bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-300 transition-colors`}>{getTypeLabel(t.type)}</span>
+                                            </td>
+                                            <td className={`py-3 text-sm font-bold text-right transition-colors ${isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500 dark:text-red-400'}`}>
+                                                {isPositive ? '+' : '-'} {formatCurrency(t.amount)}
+                                            </td>
+                                            <td className="py-3 pr-4 text-center">
+                                                <div className="flex justify-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <button onClick={() => openEditModal(t)} className="p-2 text-indigo-400 dark:text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors">
+                                                        <Edit2 size={16} />
+                                                    </button>
+                                                    <button onClick={() => setConfirmDelete(t)} className="p-2 text-red-400 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors">
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </div>
+
+            {/* Modal de Confirmação de Exclusão */}
+            {confirmDelete && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 dark:bg-slate-900/80 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-200 transition-colors">
+                        <div className="p-6 text-center">
+                            <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors">
+                                <AlertCircle size={32} />
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">Excluir Movimentação?</h3>
+                            <p className="text-gray-500 dark:text-slate-400 text-sm mb-8 transition-colors">
+                                Tem certeza que deseja excluir esta movimentação de forma permanente? O seu saldo consolidado das carteiras será afetado.
+                            </p>
+                            <div className="flex space-x-3">
+                                <button onClick={() => setConfirmDelete(null)} className="flex-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-800 dark:text-slate-200 font-bold py-3 rounded-xl transition-colors">
+                                    Cancelar
+                                </button>
+                                <button onClick={processDelete} disabled={saving} className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-red-600/20 disabled:opacity-70">
+                                    {saving ? 'Excluindo...' : 'Sim, Excluir'}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
