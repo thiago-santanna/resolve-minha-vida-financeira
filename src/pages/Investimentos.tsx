@@ -127,7 +127,7 @@ export const InvestimentosPage = () => {
                 user_id: user?.id,
                 investment_account_id: formData.investment_account_id,
                 type: formData.type,
-                amount: parseFloat(formData.amount),
+                amount: parseFloat(String(formData.amount).replace(',', '.')),
                 date: formData.date,
                 notes: formData.notes || null,
                 bank_account_id: (formData.type === 'DEPOSIT' || formData.type === 'WITHDRAWAL') ? (formData.bank_account_id || null) : null

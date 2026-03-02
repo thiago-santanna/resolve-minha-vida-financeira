@@ -117,7 +117,7 @@ export const CadastrosPage = () => {
             // clean up joined data (relations object)
             if (payload.banks) delete payload.banks;
             if (payload.initial_balance !== undefined) {
-                payload.initial_balance = typeof payload.initial_balance === 'string' ? parseFloat(payload.initial_balance) || 0 : payload.initial_balance;
+                payload.initial_balance = typeof payload.initial_balance === 'string' ? parseFloat(payload.initial_balance.replace(',', '.')) || 0 : payload.initial_balance;
             }
 
             if (editingItem) {

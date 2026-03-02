@@ -106,7 +106,7 @@ export const LancamentosPage = () => {
                 const table = formData.type === 'revenue' ? 'receipts' : 'payments';
                 const payload = {
                     description: formData.description,
-                    expected_amount: parseFloat(formData.amount),
+                    expected_amount: parseFloat(String(formData.amount).replace(',', '.')),
                     due_date: formData.date,
                     ...(formData.type === 'revenue' ? { revenue_account_id: formData.category_id || null } : { expense_account_id: formData.category_id || null })
                 };
@@ -118,7 +118,7 @@ export const LancamentosPage = () => {
                     const { error } = await supabase.rpc('create_receipts_batch', {
                         p_description: formData.description,
                         p_revenue_account_id: formData.category_id || null,
-                        p_expected_amount: parseFloat(formData.amount),
+                        p_expected_amount: parseFloat(String(formData.amount).replace(',', '.')),
                         p_start_date: formData.date,
                         p_occurrences: parseInt(formData.occurrences)
                     });
@@ -127,7 +127,7 @@ export const LancamentosPage = () => {
                     const { error } = await supabase.rpc('create_payments_batch', {
                         p_description: formData.description,
                         p_expense_account_id: formData.category_id || null,
-                        p_expected_amount: parseFloat(formData.amount),
+                        p_expected_amount: parseFloat(String(formData.amount).replace(',', '.')),
                         p_start_date: formData.date,
                         p_occurrences: parseInt(formData.occurrences)
                     });
@@ -138,7 +138,7 @@ export const LancamentosPage = () => {
                 const payload = {
                     user_id: user?.id,
                     description: formData.description,
-                    expected_amount: parseFloat(formData.amount),
+                    expected_amount: parseFloat(String(formData.amount).replace(',', '.')),
                     due_date: formData.date,
                     status: 'PENDING'
                 };
@@ -213,8 +213,8 @@ export const LancamentosPage = () => {
             const isRevenue = baixaItem.entity_type === 'revenue';
             const table = isRevenue ? 'receipts' : 'payments';
             const payload = isRevenue
-                ? { status: 'RECEIVED', received_amount: parseFloat(baixaForm.amount), received_date: baixaForm.date, bank_account_id: baixaForm.bank_account_id }
-                : { status: 'PAID', paid_amount: parseFloat(baixaForm.amount), paid_date: baixaForm.date, bank_account_id: baixaForm.bank_account_id };
+                ? { status: 'RECEIVED', received_amount: parseFloat(String(baixaForm.amount).replace(',', '.')), received_date: baixaForm.date, bank_account_id: baixaForm.bank_account_id }
+                : { status: 'PAID', paid_amount: parseFloat(String(baixaForm.amount).replace(',', '.')), paid_date: baixaForm.date, bank_account_id: baixaForm.bank_account_id };
 
             const { error } = await supabase.from(table).update(payload).eq('id', baixaItem.id);
             if (error) throw error;
