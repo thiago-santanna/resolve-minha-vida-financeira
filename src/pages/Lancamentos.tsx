@@ -456,12 +456,10 @@ export const LancamentosPage = () => {
                                             id="amount"
                                             name="amount"
                                             placeholder="R$ 0,00"
+                                            intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
                                             decimalsLimit={2}
-                                            decimalSeparator=","
-                                            groupSeparator="."
-                                            prefix="R$ "
                                             value={formData.amount}
-                                            onValueChange={(value) => setFormData({ ...formData, amount: value ? value.replace(',', '.') : '' })}
+                                            onValueChange={(value) => setFormData({ ...formData, amount: value || '' })}
                                             className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors"
                                         />
                                     </div>
@@ -560,12 +558,10 @@ export const LancamentosPage = () => {
                                         id="baixa-amount"
                                         name="baixa-amount"
                                         placeholder="R$ 0,00"
+                                        intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
                                         decimalsLimit={2}
-                                        decimalSeparator=","
-                                        groupSeparator="."
-                                        prefix="R$ "
                                         value={baixaForm.amount}
-                                        onValueChange={(value) => setBaixaForm({ ...baixaForm, amount: value ? value.replace(',', '.') : '' })}
+                                        onValueChange={(value) => setBaixaForm({ ...baixaForm, amount: value || '' })}
                                         className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors"
                                     />
                                 </div>

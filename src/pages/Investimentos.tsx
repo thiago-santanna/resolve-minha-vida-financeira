@@ -354,12 +354,10 @@ export const InvestimentosPage = () => {
                                                 id="amount-invest"
                                                 name="amount-invest"
                                                 placeholder="R$ 0,00"
+                                                intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
                                                 decimalsLimit={2}
-                                                decimalSeparator=","
-                                                groupSeparator="."
-                                                prefix="R$ "
                                                 value={formData.amount}
-                                                onValueChange={(value) => setFormData({ ...formData, amount: value ? value.replace(',', '.') : '' })}
+                                                onValueChange={(value) => setFormData({ ...formData, amount: value || '' })}
                                                 className="w-full px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-4 focus:ring-indigo-50 dark:focus:ring-indigo-900/20 focus:border-indigo-400 outline-none font-bold text-gray-900 dark:text-white dark:bg-slate-700 transition-colors"
                                             />
                                         </div>

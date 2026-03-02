@@ -116,6 +116,9 @@ export const CadastrosPage = () => {
             const payload = { ...formData, user_id: user?.id };
             // clean up joined data (relations object)
             if (payload.banks) delete payload.banks;
+            if (payload.initial_balance !== undefined) {
+                payload.initial_balance = typeof payload.initial_balance === 'string' ? parseFloat(payload.initial_balance) || 0 : payload.initial_balance;
+            }
 
             if (editingItem) {
                 const { error } = await supabase.from(activeTab).update(payload).eq('id', editingItem.id);
@@ -327,12 +330,10 @@ export const CadastrosPage = () => {
                                                     id="initial_balance"
                                                     name="initial_balance"
                                                     placeholder="R$ 0,00"
+                                                    intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
                                                     decimalsLimit={2}
-                                                    decimalSeparator=","
-                                                    groupSeparator="."
-                                                    prefix="R$ "
-                                                    value={formData.initial_balance || 0}
-                                                    onValueChange={(value) => setFormData({ ...formData, initial_balance: value ? parseFloat(value.replace(',', '.')) : 0 })}
+                                                    value={formData.initial_balance || ''}
+                                                    onValueChange={(value) => setFormData({ ...formData, initial_balance: value || 0 })}
                                                     className="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-primary outline-none dark:bg-slate-700 dark:text-white transition-colors"
                                                 />
                                             </div>
