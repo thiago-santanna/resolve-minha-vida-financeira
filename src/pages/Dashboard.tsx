@@ -21,6 +21,7 @@ export const DashboardPage = () => {
 
     const [upcoming, setUpcoming] = useState<any[]>([]);
     const [accountsBalance, setAccountsBalance] = useState<any[]>([]);
+    const [investmentsBalance, setInvestmentsBalance] = useState<any[]>([]);
     const [totalInvested, setTotalInvested] = useState<number>(0);
 
     useEffect(() => {
@@ -87,8 +88,11 @@ export const DashboardPage = () => {
             const { data: accsBalance } = await supabase.from('view_bank_accounts_balance').select('*');
             setAccountsBalance(accsBalance || []);
 
-            const { data: invsBalance } = await supabase.from('view_investment_balance').select('*');
-            setTotalInvested(invsBalance && invsBalance.length > 0 ? (invsBalance[0].total_invested || 0) : 0);
+            // Fetch investments detailed balance
+            const { data: invsBalanceData } = await supabase.from('view_investment_accounts_balance').select('*');
+            setInvestmentsBalance(invsBalanceData || []);
+            const totalInv = (invsBalanceData || []).reduce((acc: number, curr: any) => acc + Number(curr.current_balance), 0);
+            setTotalInvested(totalInv);
 
         } catch (error) {
             console.error('Error loading dashboard:', error);
@@ -179,17 +183,30 @@ export const DashboardPage = () => {
 
                             <hr className="border-gray-100 dark:border-slate-700 my-4" />
 
-                            <div className="flex justify-between items-center p-3 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/10 rounded-xl transition-colors">
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-indigo-100 dark:bg-indigo-900/50 p-2 rounded-lg text-indigo-500 dark:text-indigo-400">
-                                        <Activity size={16} />
-                                    </div>
-                                    <span className="font-bold text-indigo-900 dark:text-indigo-300">Total Investido</span>
-                                </div>
-                                <span className="font-bold text-indigo-600 dark:text-indigo-400">{formatCurrency(totalInvested)}</span>
+                            <div className="flex items-center gap-2 mb-2">
+                                <Activity size={18} className="text-indigo-500 dark:text-indigo-400" />
+                                <h3 className="text-sm font-bold text-gray-900 dark:text-white transition-colors">Total Investido (Detalhado)</h3>
                             </div>
 
-                            <div className="flex justify-between items-center p-4 mt-2 bg-gray-900 dark:bg-slate-700 rounded-xl shadow-lg border border-gray-800 dark:border-slate-600 transition-colors">
+                            {investmentsBalance.map(inv => (
+                                <div key={inv.investment_account_id} className="flex justify-between items-center p-3 hover:bg-indigo-50/30 dark:hover:bg-indigo-900/10 rounded-xl transition-colors">
+                                    <div className="flex flex-col">
+                                        <span className="font-semibold text-gray-700 dark:text-slate-300 text-sm">{inv.account_name}</span>
+                                        <span className="text-xs text-gray-400 dark:text-slate-500">{inv.institution_name}</span>
+                                    </div>
+                                    <span className="font-bold text-indigo-600 dark:text-indigo-400">{formatCurrency(inv.current_balance)}</span>
+                                </div>
+                            ))}
+                            {investmentsBalance.length === 0 ? (
+                                <p className="text-center text-gray-500 text-sm py-2">Nenhum investimento registrado.</p>
+                            ) : (
+                                <div className="flex justify-between items-center p-3 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-xl transition-colors mt-2">
+                                    <span className="font-bold text-indigo-900 dark:text-indigo-300">Soma Total Investida</span>
+                                    <span className="font-bold text-indigo-600 dark:text-indigo-400">{formatCurrency(totalInvested)}</span>
+                                </div>
+                            )}
+
+                            <div className="flex justify-between items-center p-4 mt-4 bg-gray-900 dark:bg-slate-700 rounded-xl shadow-lg border border-gray-800 dark:border-slate-600 transition-colors">
                                 <span className="font-bold text-white text-sm uppercase tracking-wider">Patrimônio Líquido</span>
                                 <span className="font-extrabold text-xl text-emerald-400">
                                     {formatCurrency(totalInvested + accountsBalance.reduce((acc, curr) => acc + Number(curr.current_balance), 0))}
