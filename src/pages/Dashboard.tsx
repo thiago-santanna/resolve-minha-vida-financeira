@@ -41,10 +41,11 @@ export const DashboardPage = () => {
 
             let currentBalanceRow = null;
             if (balances) {
-                // Find the row where month_date corresponds to current year and month
+                // Find the row where month_date corresponds to current year and month (avoid timezone shifts)
                 currentBalanceRow = balances.find(b => {
-                    const date = new Date(b.month_date);
-                    return date.getFullYear() === year && String(date.getMonth() + 1).padStart(2, '0') === month;
+                    const datePart = String(b.month_date).split('T')[0].split(' ')[0]; // Ex: "2026-03-01"
+                    const [y, m] = datePart.split('-');
+                    return parseInt(y) === year && m === month;
                 });
             }
 
@@ -58,8 +59,8 @@ export const DashboardPage = () => {
                 setBalanceData({ income: 0, expense: 0, balance: 0 });
             }
 
-            // Fetch upcoming pending items
-            const todayStr = today.toISOString().split('T')[0];
+            // Fetch upcoming pending items (safe local timezone format limit)
+            const todayStr = `${year}-${month}-${String(today.getDate()).padStart(2, '0')}`;
             const { data: pendingReceipts } = await supabase
                 .from('view_receipts_report')
                 .select('*')
