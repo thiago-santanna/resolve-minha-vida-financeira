@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TrendingUp, TrendingDown, Wallet } from 'lucide-react';
+import { TrendingUp, TrendingDown, Wallet, Landmark, Activity, Building2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -20,6 +20,8 @@ export const DashboardPage = () => {
     });
 
     const [upcoming, setUpcoming] = useState<any[]>([]);
+    const [accountsBalance, setAccountsBalance] = useState<any[]>([]);
+    const [totalInvested, setTotalInvested] = useState<number>(0);
 
     useEffect(() => {
         if (user) {
@@ -80,6 +82,13 @@ export const DashboardPage = () => {
                 .slice(0, 5); // Take only top 5
 
             setUpcoming(unifiedPending);
+
+            // Fetch accounts balance
+            const { data: accsBalance } = await supabase.from('view_bank_accounts_balance').select('*');
+            setAccountsBalance(accsBalance || []);
+
+            const { data: invsBalance } = await supabase.from('view_investment_balance').select('*');
+            setTotalInvested(invsBalance && invsBalance.length > 0 ? (invsBalance[0].total_invested || 0) : 0);
 
         } catch (error) {
             console.error('Error loading dashboard:', error);
@@ -143,47 +152,96 @@ export const DashboardPage = () => {
                 </div>
             </div>
 
-            <div className="mt-8 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden transition-colors">
-                <div className="p-6 border-b border-gray-100 dark:border-slate-700/50 flex justify-between items-center transition-colors">
-                    <h2 className="text-lg font-bold text-gray-900 dark:text-white transition-colors">Próximos Vencimentos a partir de hoje</h2>
-                    <Link to="/lancamentos" className="text-sm text-primary dark:text-indigo-400 font-medium hover:underline transition-colors">Ver todos</Link>
-                </div>
-                <div className="divide-y divide-gray-50 dark:divide-slate-700/50 transition-colors">
-                    {upcoming.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500 dark:text-slate-400 text-sm transition-colors">
-                            Tudo limpo! Não há lançamentos pendentes pro futuro.
-                        </div>
-                    ) : (
-                        upcoming.map((item) => {
-                            const isRevenue = item.entity_type === 'revenue';
-                            const dateObj = new Date(item.due_date + 'T00:00:00');
-
-                            const day = String(dateObj.getDate()).padStart(2, '0');
-                            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-
-                            return (
-                                <div key={item.id + item.entity_type} className="p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800/80 transition-colors gap-4">
-                                    <div className="flex items-center space-x-4 w-full sm:w-auto">
-                                        <div className={`p-3 rounded-full flex-shrink-0 transition-colors ${isRevenue ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' : 'bg-red-100 dark:bg-red-900/30 text-red-500 dark:text-red-400'}`}>
-                                            {isRevenue ? <TrendingUp size={20} /> : <TrendingDown size={20} />}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8 items-start">
+                {/* Widget de Saldos */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden transition-colors flex flex-col h-full">
+                    <div className="p-6 border-b border-gray-100 dark:border-slate-700/50 flex justify-between items-center transition-colors">
+                        <h2 className="text-lg font-bold text-gray-900 dark:text-white transition-colors flex items-center gap-2">
+                            <Landmark size={20} className="text-indigo-500" /> Saldos das Contas
+                        </h2>
+                    </div>
+                    <div className="p-6 flex-1 flex flex-col justify-center">
+                        <div className="space-y-4">
+                            {accountsBalance.map(acc => (
+                                <div key={acc.bank_account_id} className="flex justify-between items-center p-3 hover:bg-gray-50 dark:hover:bg-slate-700/30 rounded-xl transition-colors">
+                                    <div className="flex items-center gap-3">
+                                        <div className="bg-gray-100 dark:bg-slate-700 p-2 rounded-lg text-gray-500 dark:text-slate-400">
+                                            <Building2 size={16} />
                                         </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="font-semibold text-gray-900 dark:text-white truncate transition-colors">{item.description}</p>
-                                            <p className="text-sm text-gray-500 dark:text-slate-400 transition-colors">
-                                                Vence em: <span className="font-medium text-gray-700 dark:text-slate-300 transition-colors">{day}/{month}</span>
-                                            </p>
-                                        </div>
+                                        <span className="font-semibold text-gray-700 dark:text-slate-300">{acc.bank_account_name}</span>
                                     </div>
-                                    <div className="text-right w-full sm:w-auto flex flex-row sm:flex-col justify-between items-center sm:items-end">
-                                        <p className={`font-bold transition-colors ${isRevenue ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-900 dark:text-white'}`}>
-                                            {isRevenue ? '+' : '-'} {formatCurrency(item.expected_amount)}
-                                        </p>
-                                        <p className="text-xs text-gray-400 dark:text-slate-500 bg-gray-100 dark:bg-slate-700 px-2 py-0.5 rounded-full inline-block mt-1 transition-colors">Pendente</p>
-                                    </div>
+                                    <span className={`font-bold ${acc.current_balance >= 0 ? 'text-gray-900 dark:text-white' : 'text-red-500'}`}>{formatCurrency(acc.current_balance)}</span>
                                 </div>
-                            );
-                        })
-                    )}
+                            ))}
+                            {accountsBalance.length === 0 && (
+                                <p className="text-center text-gray-500 text-sm py-4">Nenhuma conta com saldo registrada.</p>
+                            )}
+
+                            <hr className="border-gray-100 dark:border-slate-700 my-4" />
+
+                            <div className="flex justify-between items-center p-3 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/10 rounded-xl transition-colors">
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-indigo-100 dark:bg-indigo-900/50 p-2 rounded-lg text-indigo-500 dark:text-indigo-400">
+                                        <Activity size={16} />
+                                    </div>
+                                    <span className="font-bold text-indigo-900 dark:text-indigo-300">Total Investido</span>
+                                </div>
+                                <span className="font-bold text-indigo-600 dark:text-indigo-400">{formatCurrency(totalInvested)}</span>
+                            </div>
+
+                            <div className="flex justify-between items-center p-4 mt-2 bg-gray-900 dark:bg-slate-700 rounded-xl shadow-lg border border-gray-800 dark:border-slate-600 transition-colors">
+                                <span className="font-bold text-white text-sm uppercase tracking-wider">Patrimônio Líquido</span>
+                                <span className="font-extrabold text-xl text-emerald-400">
+                                    {formatCurrency(totalInvested + accountsBalance.reduce((acc, curr) => acc + Number(curr.current_balance), 0))}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Widget de Vencimentos */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden transition-colors flex flex-col h-full">
+                    <div className="p-6 border-b border-gray-100 dark:border-slate-700/50 flex justify-between items-center transition-colors">
+                        <h2 className="text-lg font-bold text-gray-900 dark:text-white transition-colors">Próximos Vencimentos</h2>
+                        <Link to="/lancamentos" className="text-sm text-primary dark:text-indigo-400 font-medium hover:underline transition-colors">Ver todos</Link>
+                    </div>
+                    <div className="divide-y divide-gray-50 dark:divide-slate-700/50 transition-colors">
+                        {upcoming.length === 0 ? (
+                            <div className="p-8 text-center text-gray-500 dark:text-slate-400 text-sm transition-colors">
+                                Tudo limpo! Não há lançamentos pendentes pro futuro.
+                            </div>
+                        ) : (
+                            upcoming.map((item) => {
+                                const isRevenue = item.entity_type === 'revenue';
+                                const dateObj = new Date(item.due_date + 'T00:00:00');
+
+                                const day = String(dateObj.getDate()).padStart(2, '0');
+                                const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+
+                                return (
+                                    <div key={item.id + item.entity_type} className="p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800/80 transition-colors gap-4">
+                                        <div className="flex items-center space-x-4 w-full sm:w-auto">
+                                            <div className={`p-3 rounded-full flex-shrink-0 transition-colors ${isRevenue ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' : 'bg-red-100 dark:bg-red-900/30 text-red-500 dark:text-red-400'}`}>
+                                                {isRevenue ? <TrendingUp size={20} /> : <TrendingDown size={20} />}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-semibold text-gray-900 dark:text-white truncate transition-colors">{item.description}</p>
+                                                <p className="text-sm text-gray-500 dark:text-slate-400 transition-colors">
+                                                    Vence em: <span className="font-medium text-gray-700 dark:text-slate-300 transition-colors">{day}/{month}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="text-right w-full sm:w-auto flex flex-row sm:flex-col justify-between items-center sm:items-end">
+                                            <p className={`font-bold transition-colors ${isRevenue ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-900 dark:text-white'}`}>
+                                                {isRevenue ? '+' : '-'} {formatCurrency(item.expected_amount)}
+                                            </p>
+                                            <p className="text-xs text-gray-400 dark:text-slate-500 bg-gray-100 dark:bg-slate-700 px-2 py-0.5 rounded-full inline-block mt-1 transition-colors">Pendente</p>
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
