@@ -213,7 +213,7 @@ $$ LANGUAGE plpgsql SECURITY INVOKER;
 -- =========================================================================================
 
 -- View: Relatório Contas a Receber
-CREATE OR REPLACE VIEW view_receipts_report AS
+CREATE OR REPLACE VIEW view_receipts_report WITH (security_invoker = true) AS
 SELECT 
   r.id, 
   r.user_id, 
@@ -232,7 +232,7 @@ FROM receipts r
 LEFT JOIN revenue_accounts ra ON r.revenue_account_id = ra.id;
 
 -- View: Relatório Contas a Pagar
-CREATE OR REPLACE VIEW view_payments_report AS
+CREATE OR REPLACE VIEW view_payments_report WITH (security_invoker = true) AS
 SELECT 
   p.id, 
   p.user_id, 
@@ -250,7 +250,7 @@ FROM payments p
 LEFT JOIN expense_accounts ea ON p.expense_account_id = ea.id;
 
 -- View: Balanço Mensal
-CREATE OR REPLACE VIEW view_monthly_balance AS
+CREATE OR REPLACE VIEW view_monthly_balance WITH (security_invoker = true) AS
 WITH ALL_MONTHS AS (
   SELECT DISTINCT date_trunc('month', due_date) AS month_date, user_id FROM receipts
   UNION
@@ -281,6 +281,53 @@ SELECT
 FROM ALL_MONTHS am
 LEFT JOIN MONTHLY_INCOME mi ON am.month_date = mi.month_date AND am.user_id = mi.user_id
 LEFT JOIN MONTHLY_EXPENSE me ON am.month_date = me.month_date AND am.user_id = me.user_id;
+
+-- =========================================================================================
+-- 6. GATILHOS E FUNÇÕES DE AUTOMAÇÃO (ONBOARDING DE USUÁRIOS)
+-- =========================================================================================
+
+-- Esta função será acionada automaticamente toda vez que um novo usuário for inserido em "auth.users" 
+-- pela tela de Auth. Criaremos bancos e categorias básicas exclusivas para ele e que respeitarão o RLS.
+CREATE OR REPLACE FUNCTION public.handle_new_user_setup()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- Bancos default
+  INSERT INTO public.banks (user_id, name, code)
+  VALUES 
+    (NEW.id, 'Nubank', '260'),
+    (NEW.id, 'Itaú Unibanco', '341'),
+    (NEW.id, 'Banco Inter', '077'),
+    (NEW.id, 'Bradesco', '237'),
+    (NEW.id, 'Caixa Econômica Federal', '104'),
+    (NEW.id, 'Banco do Brasil', '001');
+
+  -- Receitas default
+  INSERT INTO public.revenue_accounts (user_id, name)
+  VALUES 
+    (NEW.id, 'Salário'),
+    (NEW.id, 'Prestação de Serviços'),
+    (NEW.id, 'Rendimentos'),
+    (NEW.id, 'Vendas');
+
+  -- Despesas default
+  INSERT INTO public.expense_accounts (user_id, name)
+  VALUES 
+    (NEW.id, 'Moradia / Aluguel'),
+    (NEW.id, 'Alimentação / Mercado'),
+    (NEW.id, 'Transporte / Combustível'),
+    (NEW.id, 'Saúde / Farmácia'),
+    (NEW.id, 'Lazer / Contas'),
+    (NEW.id, 'Telefonia / Internet');
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Disparador: Sempre que houver INSERT no sistema base Auth, execute a função como "adm"
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user_setup();
 
 -- =========================================================================================
 -- FIM DO SCHEMA
